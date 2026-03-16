@@ -1,0 +1,15 @@
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\bin\Release\net9.0\Capa_Datos.deps.json
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\bin\Release\net9.0\Capa_Datos.dll
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\bin\Release\net9.0\Capa_Datos.pdb
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\bin\Release\net9.0\Capa_Modelo.dll
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\bin\Release\net9.0\Capa_Modelo.pdb
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.csproj.AssemblyReference.cache
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.AssemblyInfoInputs.cache
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.AssemblyInfo.cs
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.csproj.CoreCompileInputs.cache
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.csproj.Up2Date
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.dll
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\refint\Capa_Datos.dll
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\Capa_Datos.pdb
+C:\Users\CORP-DESARROLLO\Documents\Sln_CorporacionCobefar\Capa_Datos\obj\Release\net9.0\ref\Capa_Datos.dll

@@ -1,0 +1,107 @@
+﻿@using Capa_Modelo.Farmacovigilancia
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Farmacovigilancia>
+
+
+<div class="table-responsive-md">
+    <table class="table table-hover align-middle">
+        <thead class="table-header">
+            <tr>
+                <th>DocEntry</th>
+                <th>Nombres y Apellidos</th>
+                <th>Sexo</th>
+                <th>Producto</th>
+                <th>Notificador</th>
+                <th>Fecha de Creación</th>
+                <th>Estado</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td data-label="DocEntry">@u.IdFarmacovigilancia</td>
+                    <td data-label="NomreCompleto">@u.NombreCompletoPaciente</td>
+                    <td data-label="Sexo">@u.SexoPaciente</td>
+                    <td data-label="Producto">@u.NombreProducto</td>
+                    <td data-label="Notificador">@u.NombreNotificador</td>
+                    <td data-label="FechaCreacion">@u.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td data-label="Estado">
+                        @(u.Estado == 0 ? "ABIERTO" :
+                                            u.Estado == 1 ? "EN PROCESO" :
+                                            u.Estado == 2 ? "CERRADO" : "")
+                    </td>
+
+                    <td data-label="Acciones" class="text-center">
+                        <a href="@Url.Action("ConsultarFarmacovigilancia", "Farmacovigilancia", new { IdFarmacovigilancia = u.IdFarmacovigilancia })" class="btn btn-sm btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Consultar Farmacovigilancia">
+                            <i class="bi bi-search"></i>
+                        </a>
+                         
+                    @switch (u.Estado)
+                        {
+                            case 0: // ABIERTO
+                                    <button class="btn btn-sm btn-warning btn-cambiar-estado"
+                                            data-id="@u.IdFarmacovigilancia"
+                                            data-estado="1"
+                                            title="Pasar a En Proceso">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </button>
+                                break;
+
+                            case 1: // EN PROCESO
+                                    <button class="btn btn-sm btn-primary btn-cambiar-estado"
+                                            data-id="@u.IdFarmacovigilancia"
+                                            data-estado="0"
+                                            title="Volver a Abierto">
+                                        <i class="bi bi-folder2-open"></i>
+                                    </button>
+
+                                <button class="btn btn-sm btn-success btn-cambiar-estado"
+                                        data-id="@u.IdFarmacovigilancia"
+                                        data-estado="2"
+                                        title="Cerrar">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </button>
+                                break;
+
+                            case 2: // CERRADO
+                                    <button class="btn btn-sm btn-warning btn-cambiar-estado"
+                                            data-id="@u.IdFarmacovigilancia"
+                                            data-estado="1"
+                                            title="Reabrir (En Proceso)">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                break;
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-2 gap-2">
+
+    <small class="text-muted text-center text-md-start">
+        Mostrando @Model.FirstItemOnPage a @Model.LastItemOnPage de @Model.TotalItemCount registros
+    </small>
+
+    <div class="w-100 w-md-auto paginacion">
+        @Html.PagedListPager(Model, page => "javascript:cargarTabla(" + page + ")",
+                 new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+            UlElementClasses = new[] { "pagination", "mb-0" },
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5
+        })
+    </div>
+</div>

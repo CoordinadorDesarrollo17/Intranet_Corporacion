@@ -1,0 +1,167 @@
+﻿@using Capa_Modelo.Farmacovigilancia
+@using X.PagedList
+@model IPagedList<Farmacovigilancia>
+
+@{
+    ViewData["Title"] = "Farmacovigilancia";
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header header-gradient text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">MÓDULO GESTIÓN DE REPORTES DE FARMACOVIGILANCIA</h5>
+    </div>
+
+    <div class="card-body">
+        @Html.AntiForgeryToken()
+
+        <div class="row mb-3 gy-2">
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
+                    <label class="mb-0 fw-semibold">Mostrar</label>
+
+                    <select id="pageSize" class="form-select form-select-sm w-auto">
+                        @foreach (var size in new[] { 5, 10, 25, 50 })
+                        {
+                            <option value="@size" selected="@(size == 10)">@size</option>
+                        }
+                    </select>
+
+                    <span>registros por página</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              
+      
+
+                <div class="d-flex justify-content-start justify-content-md-end gap-2">
+                    <input type="text"
+                           id="txtBuscar"
+                           class="form-control form-control-sm w-100 w-md-50"
+                           placeholder="Buscar:" />
+
+                    <button id="btnExportarExcel" class="btn btn-success btn-sm">
+                        <i class="bi bi-file-earmark-excel"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div id="tablaFarmacovigilancia">
+            <partial name="_TablaFarmacovigilancia" model="Model" />
+        </div>
+    </div> <!-- card-body -->
+</div> <!-- card -->
+@section Scripts {
+
+    <script>
+        document.getElementById("btnExportarExcel").addEventListener("click", function () {
+            const query = txtBuscar.value;
+            const url = `@Url.Action("ExportarExcel", "Farmacovigilancia")?nombrePaciente=${encodeURIComponent(query)}`;
+            window.location.href = url;
+        });
+    </script>
+
+
+
+    <script>
+
+     
+        const txtBuscar = document.getElementById("txtBuscar");
+        const pageSizeSelect = document.getElementById("pageSize");
+        const tablaFarmacovigilancia = document.getElementById("tablaFarmacovigilancia");
+   
+
+        function cargarTabla(page = 1) {
+            const query = txtBuscar.value;
+            const pageSize = pageSizeSelect.value;
+         
+             let url = `@Url.Action("BuscarFarmacovigilancia", "Farmacovigilancia")?page=${page}&pageSize=${pageSize}&nombrePaciente=${encodeURIComponent(query)}`;
+
+            fetch(url)
+                .then(r => r.text())
+                .then(html => tablaFarmacovigilancia.innerHTML = html);
+        }
+
+        txtBuscar.addEventListener("input", () => cargarTabla(1));
+        pageSizeSelect.addEventListener("change", () => cargarTabla(1));
+       
+    </script>
+
+
+    <script>
+                function obtenerNombreEstado(estado) {
+            switch (estado) {
+                case "0": return "ABIERTO";
+                case "1": return "EN PROCESO";
+                case "2": return "CERRADO";
+                default: return "DESCONOCIDO";
+            }
+        }
+
+
+
+        document.addEventListener("click", function (e) {
+
+            const btn = e.target.closest(".btn-cambiar-estado");
+            if (!btn) return;
+
+            const id = btn.dataset.id;
+            const nuevoEstado = btn.dataset.estado;
+            const nombreEstado = obtenerNombreEstado(nuevoEstado);
+
+            Swal.fire({
+                    title: 'Cambio de estado',
+        text: `¿Desea actualizar el estado del registro a ${nombreEstado}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#198754',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: `Sí, pasar a ${nombreEstado}`,
+        cancelButtonText: 'Cancelar'
+
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    fetch('/Farmacovigilancia/CambiarEstado', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken':
+                                document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({
+                            idFarmacovigilancia: id,
+                            estado: nuevoEstado
+                        })
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Estado actualizado',
+                                timer: 1200,
+                                showConfirmButton: false
+                            }).then(() => {
+                                cargarTabla(); // mejor que reload()
+                            });
+                        } else {
+                            Swal.fire('Error', data.mensaje, 'error');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    
+
+
+
+}

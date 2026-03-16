@@ -1,0 +1,155 @@
+﻿@using Capa_Modelo.Login
+@using X.PagedList
+@model IPagedList<Usuario>
+
+@{
+    ViewData["Title"] = "Gestion Usuarios";
+}
+  
+<div class="card shadow-sm mb-4">
+    <div class="card-header header-gradient text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">MÓDULO GESTIÓN DE PERMISOS</h5>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-success btn-sm" href="@Url.Action("CrearUsuario","Usuario")">
+                <i class="bi bi-person-plus"></i> Crear usuario
+            </a>
+
+           
+        </div>
+    </div>
+
+    <div class="card-body">
+       
+        <div class="row mb-3 gy-2">
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
+                    <label class="mb-0 fw-semibold">Mostrar</label>
+
+                    <select id="pageSize" class="form-select form-select-sm w-auto">
+                        @foreach (var size in new[] { 5, 10, 25, 50 })
+                        {
+                            <option value="@size" selected="@(size == 10)">@size</option>
+                        }
+                    </select>
+
+                    <span>registros por página</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex justify-content-start justify-content-md-end">
+                    <input type="text"
+                           id="txtBuscar"
+                           class="form-control form-control-sm w-100 w-md-50"
+                           placeholder="Buscar:" />
+                </div>
+            </div>
+
+        </div>
+
+
+
+<div id="tablaUsuarios">
+    <partial name="_TablaUsuarios" model="Model" />
+</div>
+    </div> <!-- card-body -->
+</div> <!-- card -->
+@section Scripts {
+    <script>
+        const txtBuscar = document.getElementById("txtBuscar");
+        const pageSizeSelect = document.getElementById("pageSize");
+        const tablaUsuarios = document.getElementById("tablaUsuarios");
+
+        function cargarTabla(page = 1) {
+            const query = txtBuscar.value;
+            const pageSize = pageSizeSelect.value;
+
+            fetch(`@Url.Action("BuscarUsuarios", "Usuario")?page=${page}&pageSize=${pageSize}&nombreUsuario=${encodeURIComponent(query)}`)
+                .then(r => r.text())
+                .then(html => tablaUsuarios.innerHTML = html);
+        }
+
+        txtBuscar.addEventListener("input", () => cargarTabla(1));
+        pageSizeSelect.addEventListener("change", () => cargarTabla(1));
+
+    </script>
+
+    @if (TempData["NuevoUsuario"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuario creado correctamente',
+                html: `
+                    <strong>Usuario:</strong> @TempData["NuevoUsuario"]<br>
+                    <strong>Contraseña:</strong> @TempData["NuevaPassword"]
+                `,
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
+    }
+    @if (TempData["Mensaje"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: @Html.Raw(Json.Serialize(TempData["Mensaje"])),
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
+    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.querySelectorAll(".btn-inactivar").forEach(btn => {
+                btn.addEventListener("click", function () {
+
+                       const idUsuario = this.dataset.id;
+
+                    Swal.fire({
+                        title: '¿Está seguro(a) de inactivar este usuario?',
+                        text: 'Este usuario ya no podrá acceder a la INTRANET',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#dc3545',
+                        confirmButtonText: 'Sí, estoy seguro(a)',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = `/Usuario/InactivarUsuario?idUsuario=${idUsuario}`;
+                        }
+                    });
+
+                });
+            });
+
+                 document.querySelectorAll(".btn-activar").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const idUsuario = this.dataset.id;
+
+                Swal.fire({
+                    title: '¿Está seguro(a) de activar este usuario?',
+                    text: 'Este usuario podrá acceder a la INTRANET',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#198754',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Sí, estoy seguro(a)',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/Usuario/ActivarUsuario?idUsuario=${idUsuario}`;
+                    }
+                });
+            });
+        });
+
+        });
+    </script>
+
+
+}

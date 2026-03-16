@@ -1,0 +1,83 @@
+﻿@using Capa_Modelo.Login
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Usuario>
+
+<div class="table-responsive-md">
+<table class="table table-hover align-middle">
+    <thead class="table-header">
+        <tr>
+            <th>DocEntry</th>
+            <th>Usuario</th>
+            <th>Nombres y Apellidos</th>
+            <th>Rol</th>
+            <th>Fecha de Creación</th>
+            <th>Operario de Creación</th>
+            <th>Activo</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                    <td data-label="DocEntry">@u.IdUsuario</td>
+                    <td data-label="Usuario">@u.UsuarioConcatenado</td>
+                    <td data-label="Nombre">@u.NombresUsuario @u.ApellidosUsuario</td>
+                    <td data-label="Rol">@u.PrefijoRol</td>
+                    <td data-label="Fecha">@u.FechaRegistro?.ToString("dd/MM/yyyy")</td>
+                    <td data-label="Creado por">@u.UsuarioRegistro</td>
+                    <td data-label="Activo">@(u.activo == 1 ? "SI" : "NO")</td>
+                    <td data-label="Acciones" class="text-center">
+                @if (u.activo == 1)
+                    { 
+                    <a href="@Url.Action("CrearUsuario","Usuario",new { usuario = u.UsuarioConcatenado })" class="btn btn-sm btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar usuario">
+                        <i class="bi bi-pencil text-primary"></i>
+                    </a>
+                        <button type="button"
+                            class="btn btn-sm btn-light btn-inactivar"
+                            data-id="@u.IdUsuario"
+                            data-bs-toggle="tooltip"
+                            title="Inactivar usuario">
+                        <i class="bi bi-person-x text-danger"></i>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="btn btn-sm btn-light btn-activar"
+                                data-id="@u.IdUsuario"
+                                data-bs-toggle="tooltip"
+                                title="Activar usuario">
+                            <i class="bi bi-person-check text-success"></i>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-2 gap-2">
+
+    <small class="text-muted text-center text-md-start">
+        Mostrando @Model.FirstItemOnPage a @Model.LastItemOnPage de @Model.TotalItemCount registros
+    </small>
+
+    <div class="w-100 w-md-auto paginacion">
+        @Html.PagedListPager(Model, page => "javascript:cargarTabla(" + page + ")",
+                 new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+            UlElementClasses = new[] { "pagination", "mb-0" },
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5
+        })
+    </div>
+</div>

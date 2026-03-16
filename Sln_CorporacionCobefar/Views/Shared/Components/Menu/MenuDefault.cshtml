@@ -1,0 +1,44 @@
+﻿@using Capa_Modelo.Menu
+@model List<MenuSistema>
+
+<ul class="navbar-nav flex-grow-1">
+    @foreach (var menu in Model)
+    {
+        if (menu.SubMenus.Any())
+        {
+            <!-- Menú padre solo abre dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown">
+                    @menu.NombreMenu
+                </a>
+
+                <ul class="dropdown-menu">
+                    @foreach (var sub in menu.SubMenus)
+                    {
+                        <li>
+                            <a class="dropdown-item"
+                               asp-controller="@sub.Controller"
+                               asp-action="@sub.Action">
+                                @sub.NombreMenu
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+        else
+        {
+            <!-- Menú sin submenús usa Controller/Action -->
+            <li class="nav-item">
+                <a class="nav-link text-dark"
+                   asp-controller="@menu.Controller"
+                   asp-action="@menu.Action">
+                    @menu.NombreMenu
+                </a>
+            </li>
+        }
+    }
+</ul>

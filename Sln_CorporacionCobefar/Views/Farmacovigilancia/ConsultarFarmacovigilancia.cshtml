@@ -1,0 +1,98 @@
+﻿@using Capa_Modelo.Farmacovigilancia
+
+@model Farmacovigilancia
+
+@{
+    ViewData["TItle"] = "Detalle Farmacovigilancia";
+}
+
+
+<div class="form-container">
+
+    <div class="row">
+        <h5 class="mb-3 ui-text-primary">Datos del paciente</h5>
+
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="NombreCompletoPaciente"></label>
+                <input type="text" class="form-control ui-bg-soft rounded-4" asp-for="NombreCompletoPaciente" disabled>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="EdadPaciente"></label>
+                <input type="number" class="form-control ui-bg-soft rounded-4" asp-for="EdadPaciente" disabled>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="SexoPaciente"></label>
+                <select asp-for="SexoPaciente" class="form-select ui-bg-soft" disabled>
+                    <option value="">Seleccione Sexo</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="CelularPaciente"></label>
+                <input type="number" class="form-control ui-bg-soft rounded-4" asp-for="CelularPaciente" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h5 class="mb-3 ui-text-primary">Datos del Producto</h5>
+
+        <div class="mb-6">
+            <label class="form-label" asp-for="NombreProducto"></label>
+            <input type="text" class="form-control ui-bg-soft rounded-4" asp-for="NombreProducto" disabled>
+        </div>
+        <div class="mb-6">
+            <label class="form-label" asp-for="DescripcionRAM"></label>
+            <textarea class="form-control ui-bg-soft rounded-4 mb-3" rows="4" asp-for="DescripcionRAM" disabled></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <h5 class="mb-3 ui-text-primary">Datos del Notificador</h5>
+
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="NombreNotificador"></label>
+                <input type="text" class="form-control ui-bg-soft rounded-4" asp-for="NombreNotificador" disabled>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="CelularNotificador"></label>
+                <input type="number" class="form-control ui-bg-soft rounded-4" asp-for="CelularNotificador" disabled>
+            </div>
+        </div>
+
+
+     </div>
+
+    <div class="row">
+        <h5 class="mb-3 ui-text-primary">Datos de Control</h5>
+
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <input type="text"
+                       class="form-control ui-bg-soft rounded-4"
+                       disabled
+                       value="@(Model.Estado == 0 ? "Abierto" : Model.Estado == 1 ? "En proceso" : Model.Estado == 2 ? "Cerrado" : "")">
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label class="form-label" asp-for="FechaCreacion"></label>
+                <input type="text" class="form-control ui-bg-soft rounded-4" asp-for="FechaCreacion" disabled>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn btn-danger" asp-controller="Farmacovigilancia" asp-action="Index">Volver</a>
+
+</div>

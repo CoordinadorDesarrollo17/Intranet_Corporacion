@@ -1,0 +1,189 @@
+html {
+    font-size: 14px;
+    height: 100%;
+  
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+   
+}
+
+main {
+    flex: 1;
+}
+
+.no-focus-readonly[readonly]:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ced4da; /* color normal de bootstrap */
+}
+
+
+
+
+.hero-highlight {
+    color: #4f8c4c;
+    font-weight: 700;
+}
+
+.ui-bg-soft {
+    background-color: #eff1fb;
+}
+.ui-text-primary {
+    color: #21359e;
+}
+.ui-text-muted {
+    color: #686868;
+}
+
+.ui-bg-primary {
+    background-color: #21359e;
+}
+
+.boton {
+    color: #ffffff;
+    background: #4f8c4c;
+}
+
+/* tablas */
+.header-gradient {
+    background: linear-gradient(90deg, #1c2787 0%, #1f2ca7 50%, #2334d6 100%);
+}
+
+.table-header {
+    background-color: #21359e;
+    color: white;
+}
+
+    .table-header th {
+        font-weight: 600;
+    }
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-danger {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+
+
+
+    table thead {
+        display: none;
+    }
+
+    table, tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: .5rem;
+        background: #fff;
+    }
+
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+    }
+
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 45%;
+            padding-left: .75rem;
+            font-weight: 600;
+            text-align: left;
+            color: #21359e;
+            pointer-events: none;
+        }
+}
+
+.paginacion {
+    display: flex;
+    justify-content: end;
+}
+
+@media (max-width: 576px) {
+    .pagination li:first-child,
+    .pagination li:last-child {
+        display: none;
+    }
+
+
+    .paginacion {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+/* hasta aqui tablas */
+
+/*FOOTER*/
+.footer-cobefar {
+    background: linear-gradient(90deg, #1c2787 0%, #1f2ca7 50%, #2334d6 100%);
+    color: #ffffff;
+    font-size: 14px;
+}
+
+    .footer-cobefar .text-success {
+        color: #7ac943 !important;
+    }
+
+    .footer-cobefar a {
+        color: #7ac943;
+        text-decoration: none;
+    }
+
+        .footer-cobefar a:hover {
+            text-decoration: underline;
+        }
+
+.footer-contact,
+.footer-copy,
+.footer-address {
+    line-height: 1.6;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer normal, sin position fixed */
+footer {
+    flex-shrink: 0;
+    background-color: #0c237f;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
